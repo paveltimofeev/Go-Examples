@@ -101,6 +101,25 @@ func arrayExample(){
 
   printMap(map1)
   printMap(map2)
+
+
+  slice := make([]int, 5)
+
+  // инициализация структуры с передачей значения полям
+  printer1 := SlicePrinter { Header: "SlicePrinter1", Item: " printing item value:" }
+  printer1.print(slice)
+
+  // инициализация структуры
+  var printer2 SlicePrinter
+  printer2.Header = "SlicePrinter2"
+  printer2.Item = " print item val:"
+  printer2.print(slice)
+
+  // инициализация структуры с возвратом указателя
+  var printer3 = new(SlicePrinter)
+  printer3.Header = "SlicePrinter3"
+  printer3.Item = " slice item value:"
+  printer3.print(slice)
 }
 
 func printArray(a [5]int){
@@ -170,4 +189,20 @@ func panicExample(){
   // выброс исключения, прерывание программы, но отложенная функция
   // всё равно должна отработать
   panic("Exception!")
+}
+
+
+// объявление структуры
+type SlicePrinter struct {
+  Header string
+  Item string
+}
+
+// добавление метода printSlice к структуре Printer
+func (p *SlicePrinter) print(arr []int) {
+
+  fmt.Println(p.Header)
+  for _, val := range arr {
+    fmt.Println(p.Item, val)
+  }
 }
