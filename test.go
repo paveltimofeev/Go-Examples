@@ -238,4 +238,19 @@ func (p *SlicePrinter) print(arr []int) {
   }
 }
 
+
+// вложенный тип
+// wrapper := SlicePrinterWrapper
+// wrapper.Printer.print( ... )
+type SlicePrinterWrapper scrict {
+  Printer SlicePrinter
+}
+
+// вложенный тип, как базовый
+// wrapper := SlicePrinterWrapper
+// wrapper.print( ... )
+type SlicePrinterWrapper scrict {
+  SlicePrinter
+}
+
 // ---------------------------------------------------------------------------
