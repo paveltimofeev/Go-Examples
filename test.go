@@ -34,6 +34,7 @@ func main() {
   sumExample(2,4,8,16,32)
   panicExample()
   pointersExample()
+  structsExample()
 }
 
 // ---------------------------------------------------------------------------
@@ -105,25 +106,6 @@ func arrayExample(){
 
   printMap(map1)
   printMap(map2)
-
-
-  slice := make([]int, 5)
-
-  // инициализация структуры с передачей значения полям
-  printer1 := SlicePrinter { Header: "SlicePrinter1", Item: " printing item value:" }
-  printer1.print(slice)
-
-  // инициализация структуры
-  var printer2 SlicePrinter
-  printer2.Header = "SlicePrinter2"
-  printer2.Item = " print item val:"
-  printer2.print(slice)
-
-  // инициализация структуры с возвратом указателя
-  var printer3 = new(SlicePrinter)
-  printer3.Header = "SlicePrinter3"
-  printer3.Item = " slice item value:"
-  printer3.print(slice)
 }
 
 func printArray(a [5]int){
@@ -223,6 +205,37 @@ func panicExample(){
 
 // ---------------------------------------------------------------------------
 
+func structsExample()  {
+
+  slice := make([]int, 5)
+
+  // инициализация структуры с передачей значения полям
+  printer1 := SlicePrinter { Header: "SlicePrinter1", Item: " printing item value:" }
+  printer1.print(slice)
+
+  // инициализация структуры
+  var printer2 SlicePrinter
+  printer2.Header = "SlicePrinter2"
+  printer2.Item = " print item val:"
+  printer2.print(slice)
+
+  // инициализация структуры с возвратом указателя
+  var printer3 = new(SlicePrinter)
+  printer3.Header = "SlicePrinter3"
+  printer3.Item = " slice item value:"
+  printer3.print(slice)
+
+  // инициализация структуры с вложенным типом
+  var wrapper = new(SlicePrinterWrapper)
+  wrapper.Printer.Header = "SlicePrinterWrapper"
+  wrapper.Printer.print( slice )
+
+  // инициализация структуры с вложенным типом, объявленным как базовый
+  var wrapper2 = new(SlicePrinterWrapper2)
+  wrapper2.Header = "SlicePrinterWrapper2"
+  wrapper2.print( slice )
+}
+
 // объявление структуры
 type SlicePrinter struct {
   Header string
@@ -242,14 +255,14 @@ func (p *SlicePrinter) print(arr []int) {
 // вложенный тип
 // wrapper := SlicePrinterWrapper
 // wrapper.Printer.print( ... )
-type SlicePrinterWrapper scrict {
+type SlicePrinterWrapper struct {
   Printer SlicePrinter
 }
 
 // вложенный тип, как базовый
-// wrapper := SlicePrinterWrapper
+// wrapper := SlicePrinterWrapper2
 // wrapper.print( ... )
-type SlicePrinterWrapper scrict {
+type SlicePrinterWrapper2 struct {
   SlicePrinter
 }
 
