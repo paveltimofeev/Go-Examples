@@ -35,6 +35,7 @@ func main() {
   panicExample()
   pointersExample()
   structsExample()
+  interfacesExample()
 }
 
 // ---------------------------------------------------------------------------
@@ -264,6 +265,32 @@ type SlicePrinterWrapper struct {
 // wrapper.print( ... )
 type SlicePrinterWrapper2 struct {
   SlicePrinter
+}
+
+// ---------------------------------------------------------------------------
+
+func interfacesExample(){
+
+    array := [5]int{1,2,3,4,5}
+
+    var printer1 = new(SlicePrinter)
+    printer1.Header = "SlicePrinter implements interface IPrinter"
+
+    var printer2 = new(SlicePrinterWrapper2)
+    printer2.Header ="SlicePrinterWrapper2 implements interface IPrinter"
+
+    PrintWithIPrinter(printer1, array[1:3])
+    PrintWithIPrinter(printer2, array[1:3])
+}
+
+// объявление интерфейса
+type IPrinter interface {
+  print(arr []int)
+}
+
+// использование интерфейcа
+func PrintWithIPrinter(printer IPrinter, arr []int) {
+  printer.print(arr)
 }
 
 // ---------------------------------------------------------------------------
