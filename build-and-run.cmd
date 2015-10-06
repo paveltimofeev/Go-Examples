@@ -1,4 +1,6 @@
+@echo off
 cls
-go build test.go && test.exe
-go build structures-and-interfaces.go && structures-and-interfaces.exe
-go build goroutines.go && goroutines.exe
+rem go build test.go && test.exe
+rem go build structures-and-interfaces.go && structures-and-interfaces.exe
+rem go build goroutines.go && goroutines.exe
+go build channels.go && channels.exe
