@@ -3,21 +3,22 @@ import ("fmt"; "time"; "math/rand"; "strconv")
 
 func main(){
 
+  SimpleChannelsExample()
+  SelectChannelsExample()
+  BufferedChannelsExample()
+}
+
+func SimpleChannelsExample(){
+
   fmt.Println("CHANNELS EXAMPLE")
 
   // создание канала
   var c chan string = make(chan string)
 
-  go Sender(c)
-  go Reciever(c)
+  go Sender(c) // запуск гоурутины отправляющей сообщение по каналу каждую секунду
+  go Reciever(c) // запуск гоурутны считывающей сообщения с канала
 
   time.Sleep(time.Second * 3)
-
-  fmt.Println("CHANNELS EXAMPLE")
-
-  SelectChannels()
-
-  // time.Sleep(time.Second * 3)
 }
 
 func Sender(c chan string){
@@ -33,10 +34,46 @@ func Reciever(c chan string){
 
   for {
 
-    msg := <- c // считывает с канала сообщение как только оно там появиться
+    // считывает с канала сообщение как только оно появиться
+    // пока сообщения нет блокирует поток
+    msg := <- c
     fmt.Println("Recieved: ", msg)
+
     // сразу, без паузы переходит к след. циклу
   }
+}
+
+//-------------------------------------------------------------------
+
+func SelectChannelsExample() {
+
+  fmt.Println("CHANNELS EXAMPLE")
+
+  var c1 chan string = make(chan string)
+  var c2 chan string = make(chan string)
+
+  go SendingOnlyChan(c1, "message from channel 1")
+  go SendingOnlyChan(c2, "message from channel 2")
+
+  go RecievingOnlyChan(c1)
+  go RecievingOnlyChan(c1)
+
+  go func(){
+
+    for {
+
+      select {
+       case message := <- c1:
+          fmt.Println("Recieving from Chan1: ", message)
+        case message := <- c2:
+          fmt.Println("Recieving from Chan2: ", message)
+      }
+    }
+
+  }()
+
+
+  time.Sleep(time.Second * 3)
 }
 
 // канал с доступом только на запись (только для отправки)
@@ -63,30 +100,39 @@ func RecievingOnlyChan(c <-chan string){
   }
 }
 
-func SelectChannels() {
+//-------------------------------------------------------------------
 
-  var c1 chan string = make(chan string)
-  var c2 chan string = make(chan string)
+func BufferedChannelsExample() {
 
-  go SendingOnlyChan(c1, "message from channel 1")
-  go SendingOnlyChan(c2, "message from channel 2")
+  fmt.Println("BUFFERED CHANNELS EXAMPLE")
 
-  go RecievingOnlyChan(c1)
-  go RecievingOnlyChan(c1)
+  var bc chan string = make(chan string, 3)
 
-  go func(){
+  go MessageSender(bc, "one", 100)
+  go MessageSender(bc, "two", 100)
+  go MessageSender(bc, "three", 100)
+  go MessageSender(bc, "FOUR", 100)
 
-    for {
+  go MessageReciever(bc, 2000)
 
-      select {
-       case message := <- c1:
-          fmt.Println("Recieving from Chan1: ", message)
-        case message := <- c2:
-          fmt.Println("Recieving from Chan2: ", message)
-      }
-    }
+  time.Sleep(time.Second * 5)
+}
 
-  }()
+func MessageSender(c chan string, msg string, d time.Duration){
 
-time.Sleep(time.Second * 3)
+  for {
+
+    fmt.Println(" Sending: ", msg)
+    c <- msg
+    fmt.Println("    Sent: ", msg)
+    time.Sleep(time.Millisecond * d )
+  }
+}
+
+func MessageReciever(c chan string, d time.Duration){
+
+  for {
+    fmt.Println("     Got: ", <- c)
+    time.Sleep(time.Millisecond * d )
+  }
 }
