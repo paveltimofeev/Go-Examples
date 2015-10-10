@@ -2,5 +2,6 @@
 :cat2: Go lang notes, example and experiments
 
 Dockerfiles
-- http://dockerfile.github.io/#/go (1.4.2)
-- http://dockerfile.github.io/#/go-runtime
+- https://hub.docker.com/_/golang/
+- https://github.com/docker-library/golang/blob/51d6eacd41fe80d41105142b9ad32f575082970f/1.5/Dockerfile
+- http://dockerfile.github.io/#/go
