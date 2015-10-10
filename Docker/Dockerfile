@@ -3,6 +3,8 @@
 
 FROM golang:1.5.1
 
+ENV CHANGED 2015-10-10:v1
+
 RUN \
 cd /user/local/go/src/ && \
 mkdir github.com && cd github.com &&\
