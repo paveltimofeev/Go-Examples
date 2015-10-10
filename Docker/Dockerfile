@@ -4,7 +4,13 @@
 FROM golang:1.5.1
 
 RUN \
-cd /go/src/ && \
+cd /user/local/go/src/ && \
 mkdir github.com && cd github.com &&\
 mkdir paveltimofeev && cd paveltimofeev && \
 git clone https://github.com/paveltimofeev/Go-Examples.git
+
+WORKDIR /user/local/go/src/github.com/paveltimofeev/Go-Examples
+
+CMD godoc -http=":8080"
+
+EXPOSE 8080 
