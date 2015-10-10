@@ -3,7 +3,7 @@
 
 FROM golang:1.5.1
 
-ENV CHANGED 2015-10-10:v1
+ENV CHANGED 2015-10-11:v1
 
 RUN \
 cd /go/src/ && \
@@ -13,6 +13,6 @@ git clone https://github.com/paveltimofeev/Go-Examples.git
 
 WORKDIR /go/src/github.com/paveltimofeev/Go-Examples
 
-CMD godoc -http=":8080"
+CMD ["godoc" "-http=':8080'"]
 
 EXPOSE 8080 
