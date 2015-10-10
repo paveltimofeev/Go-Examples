@@ -1,6 +1,6 @@
 package main
 import "fmt"
-import "github.com/ptimofeev/Go-examples/examplePackage"
+import "github.com/paveltimofeev/Go-examples/examplePackage"
 
 func main(){
 
